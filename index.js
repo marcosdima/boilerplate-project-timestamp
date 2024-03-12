@@ -28,7 +28,7 @@ app.get("/api/:date?", function (req, res) {
   let dateInput = req.params.date;
 
   // Checks if the date can be parsed as an integer... (date in miliseconds)
-  if (!isNaN(parseInt(dateInput))) dateInput = parseInt(dateInput);
+  if (Number.isInteger(dateInput)) dateInput = parseInt(dateInput);
 
   // Check if dateInput its indeterminated... (Empty string case)
   let date;
