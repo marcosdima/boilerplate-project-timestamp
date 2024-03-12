@@ -24,8 +24,19 @@ app.get("/api/hello", function (req, res) {
   res.json({greeting: 'hello API'});
 });
 
-app.get("/api/:date", function (req, res) {
-  const date = new Date(req.params.date);
+app.get("/api/:date?", function (req, res) {
+  let dateInput = req.params.date;
+
+  // Checks if the date can be parsed as an integer... (date in miliseconds)
+  if (!isNaN(parseInt(dateInput))) dateInput = parseInt(dateInput);
+
+  // Check if dateInput its indeterminated... (Empty string case)
+  let date;
+  if (dateInput) date = new Date(dateInput);
+  else date = new Date();
+
+  // Checks if the date is valid...
+  if (isNaN(date.getTime())) return res.json({ error : "Invalid Date" });
 
   const formattedDate = date.toUTCString();
   
